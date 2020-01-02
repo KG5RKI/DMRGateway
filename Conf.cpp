@@ -43,6 +43,7 @@ enum SECTION {
 CConf::CConf(const std::string& file) :
 m_file(file),
 m_daemon(false),
+m_StartNet(0),
 m_rptAddress("127.0.0.1"),
 m_rptPort(62032U),
 m_localAddress("127.0.0.1"),
@@ -230,6 +231,8 @@ bool CConf::read()
 	if (section == SECTION_GENERAL) {
 			if (::strcmp(key, "Daemon") == 0)
 				m_daemon = ::atoi(value) == 1;
+			else if (::strcmp(key, "StartNet") == 0)
+				m_StartNet = ::atoi(value);
 			else if (::strcmp(key, "Timeout") == 0)
 				m_rfTimeout = m_netTimeout = (unsigned int)::atoi(value);
 			else if (::strcmp(key, "RFTimeout") == 0)
@@ -759,6 +762,11 @@ bool CConf::read()
 bool CConf::getDaemon() const
 {
 	return m_daemon;
+}
+
+int CConf::getStartNet() const
+{
+	return m_StartNet;
 }
 
 std::string CConf::getRptAddress() const
